@@ -7,115 +7,117 @@
 ## URL : http://ec2-18-197-136-66.eu-central-1.compute.amazonaws.com/
 
 ## Summary 
-1- Create new user named grader and give it the permission to sudo
-	`$sudo adduser grader`
-	`$sudo nano /etc/sudoers.d/grader` & write in it
-2- prevent all users from login with password
-	`grader ALL=(ALL) NOPASSWD:ALL`
-	`su - grader`
-	`mkdir .ssh`
-	`touch .ssh/authorized_keys`
-3- generate public/private key auth. locally & put public key on server
-	`$ssh-keygen` on local terminal
-	`$sudo cat .ssh/public_key.pub` & copy its content & put in
-	`$sudo nano .ssh/authorized_keys`
-	`$sudo chmod 777 .ssh`
-	`$sudo chmod 644 .ssh/authorized_keys` 
-4- change to port 2200 &modify ufw
-	`sudo nano /etc/ssh/sshd_config` & change 22 to 2200
-	`sudo ufw default deny incoming`
-	`sudo ufw default allow outgoing`
-	`sudo ufw allow 2200/tcp`
-	`sudo ufw allow 80/tcp`
-	`sudo ufw allow 123/udp`
-	`sudo ufw allow ntp`
-	`sudo ufw allow www`
-	`sudo ufw enable`
-5-update & modify timezone to UTC
-	`sudo apt-get update`
-	`sudo apt-get upgrade`
-	`sudo dpkg-reconfigure tzdata`
-6-login using grader user & public key in /.ssh/authorized_keys
-	`ssh grader@18.197.136.66 -p 2200 -i ~/.ssh/authorized_keys`
-7-installing apache2
-	`sudo apt-get install apache2`
-8-install mod_wsgi
-	`sudo apt-get install libapache2-mod-wsgi python-dev`
-	`sudo a2enmod wsgi`
-	`sudo service apache2 start`
-8-clone the project on /var/www/catalog/catalog/
-	`sudo apt-get install git`
-	`cd /var/www`
-	`sudo mkdir catalog`
-	`cd /catalog`
-	`git clone https://github.com/mohmansour/Category-flask.git catalog`
-9-create catalog.wsgi & write in it
-	`touch catalog.wsgi`
-	`nano catalog.wsgi` & write in it
-	`import sys
-	import logging
-	logging.basicConfig(stream=sys.stderr)
-	sys.path.insert(0, "/var/www/catalog/catalog")
-	from catalog import app as application
-	application.secret_key = 'supersecretkey'`
-	`mv project.py __init__.py`
-9-install virtual environment
- 	`sudo apt-get install python-pip`
-	`sudo pip install virtualenv`
-	`source venv/bin/activate`
-	`sudo chmod -R 777 venv`
-10-installing all needed libraries
-	`pip install Flask`
-	`sudo pip install httplib2 oauth2client sqlalchemy psycopg2 sqlalchemy_utils`
-11-change pathes of client_secrets.json & fb_client_secret.josn
-	`nano __init__.py` & put this path before json files names
-	`/var/www/catalog/catalog/client_secrets.json`
-12-Configure and enable a new virtual host
-	`sudo nano /etc/apache2/sites-available/catalog.conf` & put
+1- Create new user named grader and give it the permission to $sudo <br/>
+	`$sudo adduser grader` <br/>
+	`$sudo nano /etc/$sudoers.d/grader` & write in it <br/>
+2- prevent all users from login with password <br/>
+	`grader ALL=(ALL) NOPASSWD:ALL` <br/>
+	`su - grader` <br/>
+	`mkdir .ssh`<br/>
+	`touch .ssh/authorized_keys`<br/>
+3- generate public/private key auth. locally & put public key on server<br/>
+	`$ssh-keygen` on local terminal<br/>
+	`$sudo cat .ssh/public_key.pub` & copy its content & put in<br/>
+	`$sudo nano .ssh/authorized_keys`<br/>
+	`$sudo chmod 777 .ssh`<br/>
+	`$sudo chmod 644 .ssh/authorized_keys`<br/> 
+4- change to port 2200 &modify ufw<br/>
+	`$sudo nano /etc/ssh/sshd_config` & change 22 to 2200<br/>
+	`$sudo ufw default deny incoming`<br/>
+	`$sudo ufw default allow outgoing`<br/>
+	`$sudo ufw allow 2200/tcp`<br/>
+	`$sudo ufw allow 80/tcp`<br/>
+	`$sudo ufw allow 123/udp`<br/>
+	`$sudo ufw allow ntp`<br/>
+	`$sudo ufw allow www`<br/>
+	`$sudo ufw enable`<br/>
+5-update & modify timezone to UTC<br/>
+	`$sudo apt-get update`<br/>
+	`$sudo apt-get upgrade`<br/>
+	`$sudo dpkg-reconfigure tzdata`<br/>
+6-login using grader user & public key in /.ssh/authorized_keys<br/>
+	`ssh grader@18.197.136.66 -p 2200 -i ~/.ssh/authorized_keys`<br/>
+7-installing apache2<br/>
+	`$sudo apt-get install apache2`<br/>
+8-install mod_wsgi<br/>
+	`$sudo apt-get install libapache2-mod-wsgi python-dev`<br/>
+	`$sudo a2enmod wsgi`<br/>
+	`$sudo service apache2 start`<br/>
+8-clone the project on /var/www/catalog/catalog/<br/>
+	`$sudo apt-get install git`<br/>
+	`cd /var/www`<br/>
+	`$sudo mkdir catalog`<br/>
+	`cd /catalog`<br/>
+	`git clone https://github.com/mohmansour/Category-flask.git catalog`<br/>
+9-create catalog.wsgi & write in it<br/>
+	`touch catalog.wsgi`<br/>
+	`nano catalog.wsgi` & write in it<br/>
+	`import sys  `<br/>
+	`import logging`  <br/>
+	`logging.basicConfig(stream=sys.stderr)`  <br/>
+	`sys.path.insert(0, "/var/www/catalog/catalog")`  <br/>
+	`from catalog import app as application  `<br/>
+	`application.secret_key = 'supersecretkey'`  <br/>
+	`mv project.py __init__.py`<br/>
+9-install virtual environment<br/>
+ 	`$sudo apt-get install python-pip` <br/>
+	`$sudo pip install virtualenv`<br/>
+	`source venv/bin/activate`<br/>
+	`$sudo chmod -R 777 venv`<br/>
+10-installing all needed libraries<br/>
+	`pip install Flask`<br/>
+	`$sudo pip install httplib2 oauth2client sqlalchemy psycopg2 sqlalchemy_utils`<br/>
+11-change pathes of client_secrets.json & fb_client_secret.josn<br/>
+	`nano __init__.py` & put this path before json files names<br/>
+	`/var/www/catalog/catalog/client_secrets.json`<br/>
+12-Configure and enable a new virtual host<br/>
+	`$sudo nano /etc/apache2/sites-available/catalog.conf` & put<br/>
 	
-	`<VirtualHost *:80>
-    ServerName 18.197.136.66
-    ServerAlias ec2-18-197-136-66.eu-central-1.compute.amazonaws.com
-    ServerAdmin admin@18.197.136.66
-    WSGIDaemonProcess catalog python-path=/var/www/catalog:/var/www/catalog/venv/lib/python2.7/site-packages
-    WSGIProcessGroup catalog
-    WSGIScriptAlias / /var/www/catalog/catalog.wsgi
-    <Directory /var/www/catalog/catalog/>
-        Order allow,deny
-        Allow from all
-    </Directory>
-    Alias /static /var/www/catalog/catalog/static
-    <Directory /var/www/catalog/catalog/static/>
-        Order allow,deny
-        Allow from all
-    </Directory>
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    LogLevel warn
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
-	</VirtualHost>`
+	`<VirtualHost *:80> `
+<br/>
+    `ServerName 18.197.136.66` <br/>
+    `ServerAlias ec2-18-197-136-66.eu-central-1.compute.amazonaws.com` <br/>
+    `ServerAdmin admin@18.197.136.66 `<br/>
+    `WSGIDaemonProcess catalog python-path=/var/www/catalog:/var/www/catalog/venv/lib/python2.7/site-packages` <br/>
+    `WSGIProcessGroup catalog` <br/>
+    `WSGIScriptAlias / /var/www/catalog/catalog.wsgi` <br/>
+    `<Directory /var/www/catalog/catalog/>` <br/>
+        `Order allow,deny` <br/>
+        `Allow from all` <br/>
+    `</Directory> `<br/>
+    `Alias /static /var/www/catalog/catalog/static `<br/>
+    `<Directory /var/www/catalog/catalog/static/>` <br/>
+        `Order allow,deny` <br/>
+     `   Allow from all` <br/>
+    `</Directory> `<br/>
+    ErrorLog ${APACHE_LOG_DIR}/error.log <br/>
+    `LogLevel warn` <br/>
+    `CustomLog ${APACHE_LOG_DIR}/access.log combined` <br/>
+	`</VirtualHost>` <br/>
 
-	`sudo a2ensite catalog`
+13-enable virtual env
+	`$sudo a2ensite catalog` <br/>
 	
-12-initiate database schema 
-	`sudo apt-get install libpq-dev python-dev`
-	`udo apt-get install postgresql postgresql-contrib`
-	`sudo su - postgres`
-	`psql`
-	`CREATE USER catalog WITH PASSWORD 'password';`
-	`ALTER USER catalog CREATEDB;`
-	`CREATE DATABASE catalog WITH OWNER catalog;`
-	`\c catalog`
-	`REVOKE ALL ON SCHEMA public FROM public;`
-	`GRANT ALL ON SCHEMA public TO catalog;`
-	`\q`
-	`exit`
-13-change paths of database engine (from sqlite to postgresl)
-	`create_engine('postgresql://catalog:password@localhost/catalog')`
-14-setup database & start database entry
-	`python /var/www/catalog/catalog/database_setup.py`
-	`python /var/www/catalog/catalog/database_entry.py`
-15-restart apache
-	`sudo service apache2 restart`
+14-initiate database schema <br/>
+	`$sudo apt-get install libpq-dev python-dev`<br/>
+	`udo apt-get install postgresql postgresql-contrib`<br/>
+	`$sudo su - postgres`<br/>
+	`psql`<br/>
+	`CREATE USER catalog WITH PASSWORD 'password';`<br/>
+	`ALTER USER catalog CREATEDB;`<br/>
+	`CREATE DATABASE catalog WITH OWNER catalog;`<br/>
+	`\c catalog`<br/>
+	`REVOKE ALL ON SCHEMA public FROM public;`<br/>
+	`GRANT ALL ON SCHEMA public TO catalog;`<br/>
+	`\q`<br/>
+	`exit`<br/>
+15-change paths of database engine (from sqlite to postgresl)<br/>
+	`create_engine('postgresql://catalog:password@localhost/catalog')`<br/>
+16-setup database & start database entry<br/>
+	`python /var/www/catalog/catalog/database_setup.py`<br/>
+	`python /var/www/catalog/catalog/database_entry.py`<br/>
+17-restart apache<br/>
+	`$sudo service apache2 restart`<br/>
 
 
 ## SSH Key Locate:
@@ -123,15 +125,15 @@
 
 ##Contents
 
-database_setup.py
-database_entry.py
-project.py
-sport.db
-client_secrets.json
-fb_client_secret.json
-static/styles.css
-static/banner.jpg
-templates/
+database_setup.py <br/>
+database_entry.py <br/>
+project.py <br/>
+sport.db <br/>
+client_secrets.json <br/>
+fb_client_secret.json <br/>
+static/styles.css <br/>
+static/banner.jpg <br/>
+templates/ <br/>
 
 ##Operation use AWS, VirtualBox,Ubuntu 16.04 TLS , Github , Python 2.7
 
